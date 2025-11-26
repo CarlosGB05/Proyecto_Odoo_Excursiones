@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_profesor,excursiones.profesor,model_excursiones_profesor,base.group_user,1,1,1,1
+access_destino,excursiones.destino,model_excursiones_destino,base.group_user,1,1,1,1
+access_excursion,excursiones.excursion,model_excursiones_excursion,base.group_user,1,1,1,1

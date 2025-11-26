@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<record id="action_report_excursion" model="ir.actions.report">
+        <!-- Nombre del informe que se verá en el botón Imprimir -->
+        <field name="name">Informe de la excursion</field>
+
+        <!-- Nombre técnico del modelo sobre el que se genera el informe -->
+        <field name="model">excursiones.excursion</field>
+
+        <!-- Tipo de reporte: puede ser qweb-pdf o qweb-html -->
+        <field name="report_type">qweb-pdf</field>
+
+        <!-- Nombre técnico de la plantilla QWeb -->
+        <field name="report_name">excursiones.report_excursion</field>
+
+        <field name="report_file">excursiones.report_excursion</field>
+        <!-- Enlace entre la acción y el modelo -->
+        <field name="binding_model_id" ref="excursiones.model_excursiones_excursion"/>
+        <field name="binding_type">report</field>
+    </record>
+
+  
+    <!-- ============================== -->
+    <!--   PLANTILLA QWEB DEL INFORME   -->
+    <!-- ============================== -->
+    <template id="report_excursion">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="exc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado principal -->
+                        <h2 style="text-align:center;">Ficha de Excursión Escolar</h2>
+                        <br/>
+
+                        <!-- Información general -->
+                        <h4>Datos generales</h4>
+                        <table class="table table-sm table-bordered" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Nombre:</strong></td>
+                                    <td><t t-esc="exc.nombre"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fecha:</strong></td>
+                                    <td><t t-esc="exc.fecha"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hora de salida:</strong></td>
+                                    <td><t t-esc="exc.hora_salida"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hora de regreso:</strong></td>
+                                    <td><t t-esc="exc.hora_regreso"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Curso participante:</strong></td>
+                                    <td><t t-esc="exc.curso"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <!-- Información del destino -->
+                        <h4>Destino</h4>
+                        <table class="table table-sm table-bordered" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Nombre:</strong></td>
+                                    <td><t t-esc="exc.destino_id.nombre"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dirección:</strong></td>
+                                    <td><t t-esc="exc.destino_id.direccion"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tipo:</strong></td>
+                                    <td><t t-esc="exc.destino_id.tipo"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Coste entrada (€):</strong></td>
+                                    <td><t t-esc="exc.destino_id.coste_entrada"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contacto:</strong></td>
+                                    <td><t t-esc="exc.destino_id.contacto"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <!-- Profesor responsable -->
+                        <h4>Profesor responsable</h4>
+                        <table class="table table-sm table-bordered" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Nombre:</strong></td>
+                                    <td><t t-esc="exc.profesor_id.nombre"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Departamento:</strong></td>
+                                    <td><t t-esc="exc.profesor_id.departamento"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Teléfono:</strong></td>
+                                    <td><t t-esc="exc.profesor_id.telefono"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Correo electrónico:</strong></td>
+                                    <td><t t-esc="exc.profesor_id.email"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
