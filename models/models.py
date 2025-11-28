@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api, exceptions
 from datetime import date
+import re
 
 class Profesor(models.Model):
     _name = 'excursiones.profesor'
@@ -19,6 +20,18 @@ class Profesor(models.Model):
     ], string='Rol en excursión', default='acompanante')
 
     excursiones_ids = fields.One2many('excursiones.excursion', 'profesor_id', string='Excursiones')
+
+    @api.constrains('telefono')
+    def _check_telefono(self):
+        for prof in self:
+            if prof.telefono and (not prof.telefono.isdigit() or len(prof.telefono) != 9):
+                raise exceptions.ValidationError("El teléfono debe contener exactamente 9 números.")
+
+    @api.constrains('email')
+    def _check_email(self):
+        for prof in self:
+            if prof.email and '@' not in prof.email:
+                raise exceptions.ValidationError("El correo electrónico debe contener un '@'.")
 
 class Destino(models.Model):
     _name = 'excursiones.destino'
@@ -40,6 +53,24 @@ class Destino(models.Model):
     coste_entrada = fields.Float(string='Coste entrada por alumno (€)', digits=(10, 2))
 
     excursiones_ids = fields.One2many('excursiones.excursion', 'destino_id', string='Excursiones')
+
+    @api.constrains('coste_entrada')
+    def _check_coste_entrada(self):
+        for destino in self:
+            if destino.coste_entrada < 0:
+                raise exceptions.ValidationError("El coste de la entrada debe ser un número positivo.")
+    
+    @api.constrains('telefono')
+    def _check_telefono(self):
+        for profe in self:
+            if profe.telefono and (not profe.telefono.isdigit() or len(profe.telefono) != 9):
+                raise exceptions.ValidationError("El teléfono debe contener exactamente 9 números.")
+
+    @api.constrains('email')
+    def _check_email(self):
+        for profe in self:
+            if profe.email and '@' not in profe.email:
+                raise exceptions.ValidationError("El correo electrónico debe contener un '@'.")
 
 class Excursion(models.Model):
     _name = 'excursiones.excursion'
